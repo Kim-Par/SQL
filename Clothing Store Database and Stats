@@ -1,0 +1,29 @@
+--Create a clothing store database
+
+CREATE TABLE my_store (id INTEGER PRIMARY KEY, item TEXT, quantity INTEGER, price INTEGER, in_store TEXT);
+
+INSERT INTO my_store VALUES
+(1, 'tshirt',15, 8.99, 'yes'),
+(2, 'long sleeve tshirt', 6, 10.99, 'yes'),
+(3, 'shorts', 4, 7.99, 'no'),
+(4, 'jeans', 8, 12.99, 'yes'),
+(5, 'slacks', 5, 13.99, 'yes'),
+(6, 'khakis', 2, 14.99, 'no'),
+(7, 'tanks', 9, 6.99, 'no'),
+(8, 'blazer', 3, 17.99, 'no'),
+(9, 'hat', 3, 5.99, 'yes'),
+(10, 'necklace', 14, 9.99, 'yes'),
+(11, 'bracelet', 12, 6.99, 'yes'),
+(12, 'rings', 9, 5.99, 'yes'),
+(13, 'mens shoes', 3, 24.99, 'yes'),
+(14, 'womens shoes', 4, 23.99, 'yes'),
+(15, 'wallet', 8, 9.99, 'yes');
+
+--Display the database ordered by price.
+SELECT * FROM my_store ORDER BY price;
+
+--What is the max price of an item in our store?
+SELECT MAX(price) FROM my_store
+
+--What are the prices of items from most expensive to least expensive?
+SELECT item, price FROM my_store ORDER BY price desc;
