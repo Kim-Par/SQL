@@ -1,0 +1,87 @@
+CREATE TABLE celebrity (id INTEGER PRIMARY KEY, name TEXT, birthday TEXT, occupation TEXT);
+
+INSERT INTO celebrity (name, birthday, occupation) VALUES
+("Miley Cyrus", "Nov 23 1992", "singer"),
+("Reese Witherspoon", "Mar 22 1976", "actress"),
+("Taylor Swift", "Dec 13 1989", "singer"),
+("Taylor Swift", "Dec 13 1989", "singer"),
+("Taylor Swift", "Dec 13 1989", "singer"),
+("Tom Holland", "June 1 1996", "actor"),
+("Zendaya", "Sept 1 1996", "actress"),
+("John Mulaney", "Aug 16 1982", "actor"),
+("Dua Lipa", "Aug 22 1995", "singer"),
+("Paris Hilton", "Feb 17 1981", "heiress"),
+("Gigi Hadid", "Apr 23 1995", "model");
+
+CREATE TABLE celebrity_pet (id INTEGER PRIMARY KEY, name TEXT, pet_name TEXT, pet_type TEXT);
+
+INSERT INTO celebrity_pet (name, pet_name, pet_type) VALUES
+("Miley Cyrus", "Angel", "dog"),
+("Reese Witherspoon", "Major", "dog"),
+("Taylor Swift", "Meredith", "cat"),
+("Taylor Swift", "Olivia", "cat"),
+("Taylor Swift", "Benjamin Button", "cat"),
+("Tom Holland", "Tessa", "dog"),
+("Zendaya", "Noon", "dog"),
+("John Mulaney", "Petunia", "dog"),
+("Dua Lipa", "Dexter", "dog"),
+("Paris Hilton", "Baby Luv", "kinkajou"),
+("Gigi Hadid", "Cleo", "cat");
+
+CREATE TABLE pet_details (id INTEGER PRIMARY KEY, pet_name TEXT, pet_type TEXT, pet_breed TEXT);
+
+INSERT INTO pet_details (pet_name, pet_type, pet_breed) VALUES
+("Angel", "dog", "pit bull"),
+("Major", "dog", "lab"),
+("Meredith", "cat", "scottish fold"),
+("Olivia", "cat", "scottish fold"),
+("Benjamin Button", "cat", "rag doll"),
+("Tessa", "dog", "pit bull"),
+("Noon", "dog", "miniature schnauzer"),
+("Petunia", "dog", "french bulldog"),
+("Dexter", "dog", "mix"),
+("Baby Luv", "kinkajou", "unknown"),
+("Cleo", "cat", "tabby");
+
+--Data showing celebrity name, their pets name, pet type and the breed.
+SELECT celebrity.name AS celebrity_name, celebrity_pet.pet_name, pet_details.pet_type, pet_details.pet_breed
+FROM celebrity
+JOIN celebrity_pet
+ON celebrity_pet.id = celebrity.id
+JOIN pet_details 
+ON pet_details.id = celebrity_pet.id;
+
+--Data showing of all the pets, how many cats are there, what are their names and breed.
+SELECT pet_name, pet_type, pet_breed FROM pet_details WHERE pet_type = "cat";
+
+--Data showing which celebrities have dogs as a pet and what their names are.
+SELECT name AS celebrity_name, pet_name AS dog_as_pet FROM celebrity_pet WHERE pet_type = "dog";
+
+--Data showing which celebrities have a pit bull, what the pet's name is, and which celebrity they belong to.
+SELECT pet_details.pet_breed AS Pet_Breed, pet_details.pet_name AS Pet_Name, celebrity_pet.name AS Celebrity_Name
+FROM pet_details 
+JOIN celebrity_pet 
+ON pet_details.id = celebrity_pet.id
+WHERE pet_breed = "pit bull";
+
+--Data showing how many cats Taylor Swift has and what their names are.
+SELECT name, pet_name, pet_type FROM celebrity_pet WHERE pet_type = "cat" AND name = "Taylor Swift";
+
+--Count of how many celebrities have pit bulls.
+SELECT COUNT (*) AS celebs_with_pitbulls FROM pet_details WHERE pet_type = "dog" AND pet_breed = "pit bull";
+
+--Data showing the personality type of each breed, but only showing the name of the animal and their personality type. 
+--Kinkajou did not have a breed, so I used the pet type.
+SELECT pet_name,
+    CASE
+        WHEN pet_breed = "lab" THEN "playful"
+        WHEN pet_breed = "pit bull" THEN "strong"
+        WHEN pet_breed = "mix" THEN "silly"
+        WHEN pet_breed = "miniature schnauzer" THEN "cute"
+        WHEN pet_breed = "french bulldog" THEN "cuddly"
+        WHEN pet_breed = "scottish fold" THEN "sassy"
+        WHEN pet_breed = "rag doll" THEN "lazy"
+        WHEN pet_breed = "tabby" THEN "sweet"
+        WHEN pet_type = "kinkajou" THEN "exotic"
+    END AS "personality"
+        FROM pet_details;
